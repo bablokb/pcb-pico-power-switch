@@ -16,13 +16,15 @@ The circuitry then cuts power, thus limiting the
 battery consumption to a very low level.
 
 The design of the breakout allows it to be connected directly on the bottom
-side of the pico.
+side of the Pico.
+
+Measured current draw in off-mode is 0.38µA.
 
 
 Hardware Components
 -------------------
 
-A D-type flip-flop drives the gate of a p-channel MOSFET and
+A D-type flip-flop drives the gate of a p-channel mosfet and
 switches power (source: battery, drain: VSYS). 
 A button, the RTC or an external signal will reset the flip-flop.
 This will pull the gate low, thus enabling power.
@@ -32,6 +34,10 @@ the flip-flop. A rising edge will toggle the output and pull
 the gate high, which in turn cuts power.
 
 ![](schematic.png)
+
+A second p-channel mosfet will prevent back-powering from VBUS
+in case the Pico is connected using the USB-connector. The
+voltage-drop across this mosfet is about 0.1V.
 
 
 License
