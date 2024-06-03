@@ -1,24 +1,27 @@
 Pico Power Switch
 =================
 
+![](pcb.jpg)
+
 This is a simple breakout to switch the battery power for a Raspberry
 Pi Pico to minimize battery usage.
 
 Functions:
+
   * Enable using a button, a RTC or an external signal
   * Disable by pulling a GPIO high from your program
   * keep time
 
 The target application of this design is a program that runs in
-intervals. After startup the program executes it's tasks, sets
-the next wakup time and then pulls the "done"-GPIO high.
-The circuitry then cuts power, thus limiting the
-battery consumption to a very low level.
+intervals. After startup the program executes it's tasks, sets the
+next wakup time and then pulls the "done"-GPIO high.  The circuitry
+then cuts power, thus limiting the battery consumption to a very low
+level. Measured current draw in off-mode is 0.38µA.
 
 The design of the breakout allows it to be connected directly on the bottom
 side of the Pico.
 
-Measured current draw in off-mode is 0.38µA.
+![](pcb-3D-top.png)
 
 
 Hardware Components
@@ -38,6 +41,34 @@ the gate high, which in turn cuts power.
 A second p-channel mosfet will prevent back-powering from VBUS
 in case the Pico is connected using the USB-connector. The
 voltage-drop across this mosfet is about 0.1V.
+
+
+PCB
+---
+
+PCB design files are in `pico-power-switch.kicad`.
+
+![](layout.png)
+
+Ready to use production files for JLCPCB are in `production_files`.
+
+Software
+--------
+
+A simple example program implemented in CircuitPython
+is provided in `src/main.py`. The software provides some boilerplate
+code for timer and alarm-based wake up.
+
+In timer-mode, the program uses the countdown-timer of the rtc. It
+blinks the on-board LED for ten seconds, then goes to sleep for 15 seconds.
+
+Measured current:
+
+For longer intervals alarm-based wake up is more suitable. Since the rtc
+does not support seconds for alarms, it will always fire on "full minutes".
+The current measurement demonstrates this behavior (the first off-interval
+is shorter than the following off-intervals)
+
 
 
 License
