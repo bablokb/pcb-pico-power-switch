@@ -16,7 +16,7 @@ The target application of this design is a program that runs in
 intervals. After startup the program executes it's tasks, sets the
 next wakup time and then pulls the "done"-GPIO high.  The circuitry
 then cuts power, thus limiting the battery consumption to a very low
-level. Measured current draw in off-mode is 0.38µA.
+level. Measured current draw in off-mode is about 0.35µA.
 
 The design of the breakout allows it to be connected directly on the bottom
 side of the Pico.
@@ -62,13 +62,17 @@ code for timer and alarm-based wake up.
 In timer-mode, the program uses the countdown-timer of the rtc. It
 blinks the on-board LED for ten seconds, then goes to sleep for 15 seconds.
 
-Measured current:
-
 For longer intervals alarm-based wake up is more suitable. Since the rtc
 does not support seconds for alarms, it will always fire on "full minutes".
-The current measurement demonstrates this behavior (the first off-interval
-is shorter than the following off-intervals)
 
+
+Measured current
+----------------
+
+Using a Nordic-PPK2, a Pico-W running with 3.6V draws an average
+current of 0.35µA:
+
+![](off-current.png)
 
 
 License
